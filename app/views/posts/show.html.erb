@@ -1,0 +1,45 @@
+<div class="container">
+ <div class="topnav">
+  <% if user_signed_in?%>
+    <a><%= link_to current_user.email, "#", class: "btn btn--primary" %></a>
+    <a> <%= link_to 'Ingresa tu Mini Historia', new_post_path, class: "btn btn--primary" %></a>
+    <a><%= link_to "Salir", destroy_user_session_path, class: "btn btn--primary", method: :delete %></a>
+  <% else %>
+    <a><%= link_to "Ingreso Autor", new_user_session_path, class: "btn btn--primary" %></a>
+    <a><%= link_to "Registro Nuevo Autor", new_user_registration_path, class: "btn btn--primary" %></a>
+    <a><%= link_to 'Volver', posts_path, class: "btn btn--primary" %></a>
+  <% end %>
+ </div>
+<br>
+<br>
+<div class="container">
+ <p id="notice"><%= notice %></p>
+ <p>
+  <strong>Title:</strong>
+  <%= @post.title %>
+ </p>
+ <p>
+  <strong>Autor:</strong>
+  <%= @post.author %>
+ </p>
+ <p>
+  <strong>Content:</strong>
+  <%= @post.content %>
+ </p>
+ <% if @post.file.attached? %>
+  <div class="row">
+    <% if @post.file.image? %>
+      <div class="message-image-conmtainer">
+        <%= image_tag(@post.file, class:"message-image") %>
+      </div>
+    <% elsif @post.file.video? %>
+      <%= video_tag(url_for(@post.file), class:"message-video", controls: "")%>
+    <% elsif @post.file.audio? %>
+      <%= audio_tag(url_for(@post.file), class:"message-audio", controls: "")%>
+    <% else %>
+      <%= link_to post.file.filename, url_for(post.file), class:"message-file" %>
+    <% end %>
+  </div>
+<% end %>
+</div>
+
